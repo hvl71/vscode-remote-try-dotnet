@@ -1,7 +1,13 @@
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
-app.Urls.Add("http://localhost:5000");
+//uncomment to make app run localhost from docker container
+////not sure devcontaier debug (F5) works anymore?
+//https://andrewlock.net/5-ways-to-set-the-urls-for-an-aspnetcore-app/
+//returned ERR_EMPTY_RESPONSE when running in docker previously
+//it works in the container scenario because we specify
+//the relevant ENV in the dockerfile
+//app.Urls.Add("http://localhost:5000");
 
 app.MapGet("/", () => "Hello World!");
 
