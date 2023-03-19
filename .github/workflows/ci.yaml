@@ -1,4 +1,4 @@
-name: Deploy Images to GitHub Container Registry (GHCR)
+name: Build and Push Image to Container Registry
 
 env:
   DOTNET_VERSION: '6.0.x'
@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 jobs:
-      push-store-image:
+      build-push-image:
         runs-on: ubuntu-latest
         defaults:
           run:
@@ -19,7 +19,7 @@ jobs:
           - name: 'Checkout GitHub Action'
             uses: actions/checkout@main
 
-          - name: 'Login to GitHub Container Registry'
+          - name: 'Login to Container Registry'
             uses: docker/login-action@v2
             with:
               registry: ghcr.io
@@ -30,4 +30,6 @@ jobs:
             #repo and image now really ought to be parameterized..
             run: |
               docker build . --tag ghcr.io/hvl71/weatherapi:latest
+              #be sure to allow push to registry as described on the below link
+              #https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-github-actions-settings-for-a-repository#configuring-the-default-github_token-permissions
               docker push ghcr.io/hvl71/weatherapi:latest
