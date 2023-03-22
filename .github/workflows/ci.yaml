@@ -22,6 +22,8 @@ jobs:
               echo "GITHUB_RUN_ID has value $GITHUB_RUN_ID"
               echo "GITHUB_RUN_ATTEMPT has value $GITHUB_RUN_ATTEMPT"
               echo "GITHUB_REF_NAME has value $GITHUB_REF_NAME"
+              echo "GITHUB_REPOSITORY has value $GITHUB_REPOSITORY"
+              echo "Using env vars to construct image:tag ghcr.io/$GITHUB_REPOSITORY:$GITHUB_RUN_NUMBER-$GITHUB_REF_NAME"
           - name: 'Checkout GitHub Action'
             uses: actions/checkout@main
 
@@ -33,9 +35,8 @@ jobs:
               password: ${{secrets.GITHUB_TOKEN}}
 
           - name: 'Build Docker Image'
-            #repo and image now really ought to be parameterized..
             run: |
-              docker build . --tag ghcr.io/hvl71/weatherapi:latest
+              docker build . --tag ghcr.io/$GITHUB_REPOSITORY:$GITHUB_RUN_NUMBER-$GITHUB_REF_NAME
               #be sure to allow push to registry as described on the below link
               #https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-github-actions-settings-for-a-repository#configuring-the-default-github_token-permissions
-              docker push ghcr.io/hvl71/weatherapi:latest
+              docker push ghcr.io/$GITHUB_REPOSITORY:$GITHUB_RUN_NUMBER-$GITHUB_REF_NAME
