@@ -16,6 +16,11 @@ jobs:
           run:
             working-directory: '.'
         steps:
+          - name: 'Print counter environment variables'
+            run: |
+              echo "GITHUB_RUN_NUMBER has value $GITHUB_RUN_NUMBER" 
+              echo "GITHUB_RUN_ID has value $GITHUB_RUN_ID"
+              echo "GITHUB_RUN_ATTEMPT has value $GITHUB_RUN_ATTEMPT"
           - name: 'Checkout GitHub Action'
             uses: actions/checkout@main
 
